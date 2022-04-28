@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin,BaseUse
 
 # Create your CustomUserManager here.
 class CustomUserManager(BaseUserManager):
-    def _create_user(self, email, password, first_name, last_name, mobile, **extra_fields):
+    def _create_user(self, email, username, password, first_name, last_name, mobile, **extra_fields):
         if not email:
             raise ValueError("Email must be provided")
         if not password:
@@ -11,6 +11,7 @@ class CustomUserManager(BaseUserManager):
 
         user = self.model(
             email = self.normalize_email(email),
+            username = username,
             first_name = first_name,
             last_name = last_name,
             mobile = mobile,
@@ -21,22 +22,23 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password, first_name, last_name, mobile, **extra_fields):
+    def create_user(self, email,username, password, first_name, last_name, mobile, **extra_fields):
         extra_fields.setdefault('is_staff',True)
         extra_fields.setdefault('is_active',True)
         extra_fields.setdefault('is_superuser',False)
-        return self._create_user(email, password, first_name, last_name, mobile, password, **extra_fields)
+        return self._create_user(email,username, password, first_name, last_name, mobile, password, **extra_fields)
 
-    def create_superuser(self, email, password, first_name, last_name, mobile, **extra_fields):
+    def create_superuser(self, email,username, password, first_name, last_name, mobile, **extra_fields):
         extra_fields.setdefault('is_staff',True)
         extra_fields.setdefault('is_active',True)
         extra_fields.setdefault('is_superuser',True)
-        return self._create_user(email, password, first_name, last_name, mobile, **extra_fields)
+        return self._create_user(email, password,username, first_name, last_name, mobile, **extra_fields)
 
 # Create your User Model here.
 class User(AbstractBaseUser,PermissionsMixin):
     # Abstractbaseuser has password, last_login, is_active by default
 
+    username = models.CharField(max_length=90, null=True)
     email = models.EmailField(db_index=True, unique=True, max_length=254, null=True)
     first_name = models.CharField(max_length=240, null=True)
     last_name = models.CharField(max_length=255, null=True)
