@@ -30,4 +30,4 @@ class Transaction(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.type
+        return "{} - {} - {} - {}".format(self.user.first_name, self.type, self.status, self.date_created)

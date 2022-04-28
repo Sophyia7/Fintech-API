@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from .views import DepositView,WithdrawView,GetTransactions
 
 urlpatterns =[
     path("deposit", DepositView.as_view(), name="deposit"),
