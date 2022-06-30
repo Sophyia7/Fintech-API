@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import DepositView,WithdrawView,GetTransactions
+from .views import DepositView,WithdrawView,GetTransactions,GetWallet,GetDepositStatus, GetWithdrawStatus
 
 urlpatterns =[
     path("deposit", DepositView.as_view(), name="deposit"),
     path("withdraw", WithdrawView.as_view(), name='withdraw'),
-    path("transactions", GetTransactions.as_view(), name="transactions")
+    path("transactions", GetTransactions.as_view(), name="transactions"),
+    path("balance", GetWallet.as_view(), name="acc-balance"),
+    path("deposit-status", GetDepositStatus.as_view(), name="deposit-status"),
+    path("withdraw-status", GetWithdrawStatus.as_view(), name='withdraw-status')
 ]
