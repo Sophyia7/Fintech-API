@@ -6,6 +6,7 @@ from .models import User
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password
+from .services import create_user_wallet
 
 # Create your views here.
 class Register(GenericAPIView):
@@ -26,6 +27,7 @@ class Register(GenericAPIView):
             user = serializer.save()
             user.is_active = True
             user.save()
+            create_user_wallet(user=user) # this creates a user e-wallet
             return Response(
             {
                 "message":"User registered successfully",
