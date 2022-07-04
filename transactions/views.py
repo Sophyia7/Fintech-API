@@ -23,30 +23,32 @@ class DepositView(GenericAPIView):
             transaction_type = serializer.validated_data.get("transaction_type")
             amount = serializer.validated_data.get("amount")
             user_wallet = Wallet.objects.get(user=user)
-            # status = serializer.validated_data.get("status")
+            transaction_status = Transaction.objects.filter(user=user, transaction_type="deposit")
+            current_status = transaction_status.last().status
             
-            if transaction_type == "deposit":
-                user_wallet.available_amount += amount
-                user_wallet.save()
-                serializer.save()  
-                    
-                return Response(
-                        {
-                        "message": "Deposit successfully",
-                        "data": serializer.data
-                        },
-                        status=status.HTTP_200_OK
-                    )
-
-            else:
+            if current_status == "pending":
                 return Response(
                     {
-                        "message": "Error occured while deposting funds. Select the right type of transaction you make.",
-                        "data": serializer.errors
-                    },
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            
+                        "message": "You have a pending transaction. Contact support for more information."
+                    }, 
+                    status=status.HTTP_400_BAD_REQUEST)
+            else:
+                if transaction_type == "deposit":
+                    user_wallet.available_amount += amount
+                    user_wallet.save()
+                    transaction = Transaction.objects.create(**serializer.validated_data)
+                    transaction.save()
+                    return Response(
+                        {
+                            "message": "Transaction successful"
+                        }, 
+                        status=status.HTTP_201_CREATED)
+                else:
+                    return Response(
+                        {
+                            "message": "Error occured while deposting funds. Select the right type of transaction you make."
+                        }, 
+                        status=status.HTTP_400_BAD_REQUEST)
             
 class WithdrawView(GenericAPIView):
     serializer_class = TransactionSerializer
@@ -61,36 +63,40 @@ class WithdrawView(GenericAPIView):
             transaction_type = serializer.validated_data.get("transaction_type")
             amount = serializer.validated_data.get("amount")
             user_wallet = Wallet.objects.get(user=user)
-
+            transaction_status = Transaction.objects.filter(user=user, transaction_type="withdraw")
+            current_status = transaction_status.last().status
 
             if transaction_type == "withdraw":
-                if amount > user_wallet.available_amount:
+                if current_status == "pending":
                     return Response(
                         {
-                            "message": "Insufficient funds"
-                        },
-                        status=status.HTTP_200_OK
-                    )
+                            "message": "You have a pending transaction. Contact support for more information."
+                        }, 
+                        status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    user_wallet.available_amount -= float(amount)
-                    user_wallet.save()
-                    serializer.save()
-     
-                return Response(
-                    {
-                        "message": "Withdrawal successfully",
-                        "data": serializer.data
-                    },
-                    status=status.HTTP_200_OK
-                )
+                    if user_wallet.available_amount >= amount:
+                        user_wallet.available_amount -= amount
+                        user_wallet.save()
+                        transaction = Transaction.objects.create(**serializer.validated_data)
+                        transaction.save()
+                        return Response(
+                            {
+                                "message": "Transaction successful"
+                            }, 
+                            status=status.HTTP_201_CREATED)
+                    else:
+                        return Response(
+                            {
+                                "message": "Insufficient funds"
+                            }, 
+                            status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response(
                     {
-                        "message": "Error occured while withdrawing funds. Select the right type of transaction you want to make.",
-                        "data": serializer.errors
-                    },
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+                        "message": "Error occured while withdrawing funds. Select the right type of transaction you make."
+                    }, 
+                    status=status.HTTP_400_BAD_REQUEST)
+
             
 class GetTransactions(GenericAPIView):
     serializer_class = TransactionSerializer
@@ -184,31 +190,32 @@ class GetWithdrawStatus(GenericAPIView):
         current_status = transaction_status.last().status
         serializer = self.serializer_class(instance=transaction_status, many=True)
 
-        if current_status == "pending":
-            return Response(
-                {
-                    "message": "Your withdrawal is pending",
-                    "data": serializer.data
-                },
-                status=status.HTTP_200_OK
-            )
-        elif current_status == "processing":
-            return Response(
-                {
-                    "message": "Your withdrawal is processing",
-                    "data": serializer.data
-                },
-                status=status.HTTP_200_OK
-            )
-        elif current_status == "processed":
-            return Response(
-                {
-                    "message": "Your withdrawal is completed",
-                    "data": serializer.data
-                },
-                status=status.HTTP_200_OK
-            )
-        else:
+        try:
+            if current_status == "pending":
+                return Response(
+                    {
+                        "message": "Your withdrawal is pending",
+                        "data": serializer.data
+                    },
+                    status=status.HTTP_200_OK
+                )
+            elif current_status == "processing":
+                return Response(
+                    {
+                        "message": "Your withdrawal is processing",
+                        "data": serializer.data
+                    },
+                    status=status.HTTP_200_OK
+                )
+            elif current_status == "processed":
+                return Response(
+                    {
+                        "message": "Your withdrawal is completed",
+                        "data": serializer.data
+                    },
+                    status=status.HTTP_200_OK
+                )
+        except AttributeError:
             return Response(
                 {
                     "message": "You have no transaction records yet"
