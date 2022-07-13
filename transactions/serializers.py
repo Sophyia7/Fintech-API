@@ -18,3 +18,8 @@ class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = ['amount', 'status']
+
+class TotalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ['amount']

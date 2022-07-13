@@ -146,31 +146,40 @@ class GetDepositStatus(GenericAPIView):
         current_status = transaction_status.last().status
         serializer = self.serializer_class(instance=transaction_status, many=True)
 
-        if current_status == "pending":
-            return Response(
-                {
-                    "message": "Your deposit is pending",
-                    "data": serializer.data
-                },
-                status=status.HTTP_200_OK
-            )
-        elif current_status == "processing":
-            return Response(
-                {
-                    "message": "Your deposit is processing",
-                    "data": serializer.data
-                },
-                status=status.HTTP_200_OK
-            )
-        elif current_status == "processed":
-            return Response(
-                {
-                    "message": "Your deposit is completed",
-                    "data": serializer.data
-                },
-                status=status.HTTP_200_OK
-            )
-        else:
+
+        try:
+            if current_status == "pending":
+                return Response(
+                    {
+                        "message": "Your deposit is pending",
+                        "data": serializer.data
+                    },
+                    status=status.HTTP_200_OK
+                )
+            elif current_status == "processing":
+                return Response(
+                    {
+                        "message": "Your deposit is processing",
+                        "data": serializer.data
+                    },
+                    status=status.HTTP_200_OK
+                )
+            elif current_status == "processed":
+                return Response(
+                    {
+                        "message": "Your deposit is completed",
+                        "data": serializer.data
+                    },
+                    status=status.HTTP_200_OK
+                )
+            else:
+                return Response(
+                    {
+                        "message": "You have no transaction records yet"
+                    },
+                    status=status.HTTP_200_OK
+                )
+        except AttributeError:
             return Response(
                 {
                     "message": "You have no transaction records yet"
@@ -222,3 +231,54 @@ class GetWithdrawStatus(GenericAPIView):
                 },
                 status=status.HTTP_200_OK
             )
+
+class TotalDeposit(GenericAPIView):
+    serializer_class = TotalSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        user = get_object_or_404(User, pk=request.user.id)
+        total_deposit = Transaction.objects.filter(user=user, transaction_type="deposit", status="processed")
+        serializer = self.serializer_class(instance=total_deposit, many=True)
+
+        if total_deposit.count() == 0:
+            return Response(
+                {
+                    "message": "You have no transaction records yet"
+                },
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {
+                    "message": "Total deposit amount",
+                    "data": serializer.data
+                },
+                status=status.HTTP_200_OK
+            )
+
+class TotalWithdraw(GenericAPIView):
+    serializer_class = TotalSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        user =get_object_or_404(User, pk=request.user.id)
+        total_withdraw = Transaction.objects.filter(user=user, transaction_type="withdraw", status="processed")
+        serializer = self.serializer_class(instance=total_withdraw, many=True)
+
+        if total_withdraw.count() == 0:
+            return Response(
+                {
+                    "message": "You have no transaction records yet"
+                },
+                status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {
+                    "message": "Total withdraw amount",
+                    "data": serializer.data
+                },
+                status=status.HTTP_200_OK
+            )
+
