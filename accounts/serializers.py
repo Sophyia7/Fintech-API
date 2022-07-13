@@ -30,4 +30,21 @@ class LoginSerializer(serializers.Serializer):
         fields = ["email", "password"]
 
 
+class ResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
 
+    class Meta:
+        model = User
+        fields = ["email"]
+
+class ResetPasswordSeriliazer(serializers.Serializer):
+    password = serializers.CharField(max_length=200)
+
+    class Meta:
+        model = User
+        fields = ["password"]
+
+class LogoutSeriliazer(serializers.Serializer):
+    class Meta:
+        model = User
+        fields = ["RefreshToken"]
