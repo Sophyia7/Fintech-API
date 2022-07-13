@@ -4,7 +4,7 @@ This is built using Django and Django Rest Framework.
 
 ## Problem Statement:
 
-This system is called a Fintech System because it is the primary function of basic fintech app that lets user invest and have rights to withdraw their invest anytime; although admin must be proccess any transaction before user can make another one.
+This system is called a Fintech System because it is the primary function of basic fintech app that lets user invest and have rights to withdraw their invest anytime; although admin must proccess any transaction before user can make another one.
 
 ## Available Routes:
 
