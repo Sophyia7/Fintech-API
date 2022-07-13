@@ -10,29 +10,29 @@ This system is called a Fintech System because it is the primary function of bas
 
 **Authentication Routes**
 
-- [ ] Register: User can register and sends user a verification token.
-- [ ] Login: User can log in with the right information.
-- [ ] Confirm-Email: User can send a confirmation email to their email address.
-- [ ] Reset-Password: User can reset password by sending a reset password email token.
-- [ ] Logout: User's token will be deleted when they log out.
+- [x] Register: User can register and sends user a verification token.
+- [x] Login: User can log in with the right information.
+- [x] Confirm-Email: User can send a confirmation email to their email address.
+- [x] Reset-Password: User can reset password by sending a reset password email token.
+- [x] Logout: User's token will be deleted when they log out.
 
 **Investment Routes**
 
-- [ ] Investment: User can deposit money to the wallet.
+- [x] Investment: User can deposit money to the wallet.
       The only restriction is that the admin must process the transaction before user can make a new transaction.
-- [ ] Status: Users can check the status of their last deposit transaction.
-- [ ] Total Amount: Users can check the total amount of all deposit transactions in the wallet.
+- [x] Status: Users can check the status of their last deposit transaction.
+- [x] Total Amount: Users can check the total amount of all deposit transactions in the wallet.
 
 **Withdraw Routes**
 
-- [ ] Withdraw: User can withdraw money from their wallet.
+- [x] Withdraw: User can withdraw money from their wallet.
       The only restriction is that the admin must process the transaction before user can make a new transaction.
-- [ ] Status: Users can check the status of their last deposit transaction.
-- [ ] Total Withdraw: Users can check the total amount of all withdraw transactions in the wallet.
+- [x] Status: Users can check the status of their last deposit transaction.
+- [x] Total Withdraw: Users can check the total amount of all withdraw transactions in the wallet.
 
 **Other Routes**
-- [ ] Balance: Users can check the balance of wallet.
-- [ ] Transaction: Users can check their transaction records. 
+- [x] Balance: Users can check the balance of wallet.
+- [x] Transaction: Users can check their transaction records. 
 
 
 ## What I learned from this project
