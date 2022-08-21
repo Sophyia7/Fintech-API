@@ -34,6 +34,10 @@ This system is called a Fintech System because it is the primary function of bas
 - [x] Balance: Users can check the balance of wallet.
 - [x] Transaction: Users can check their transaction records. 
 
+**Pending Routes**
+-  notifications with signal (in progress): Users will get notified of their current transactions.
+- KYC verification (in progress): Users will need to verify their identity before they can create an account. 
+
 
 ## What I learned from this project
 
