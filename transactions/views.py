@@ -1,13 +1,17 @@
-from email import message
+# Django imports
 from django.shortcuts import get_object_or_404
-from .serializers import *
-from .models import *
+
+# App imports
+from transactions.serializers import TransactionSerializer, WalletSerializer, StatusSerializer, TotalSerializer
+from transactions.models import Transaction, Wallet
 from accounts.models import User
+
+# rest_framework imports
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-# Create your views here.
+
 
 
 class DepositView(GenericAPIView):

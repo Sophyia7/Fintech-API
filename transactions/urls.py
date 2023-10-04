@@ -1,5 +1,8 @@
+# Django imports
 from django.urls import path
-from .views import DepositView, TotalWithdraw,WithdrawView,GetTransactions,GetWallet,GetDepositStatus, GetWithdrawStatus, TotalDeposit, TotalWithdraw
+
+# App imports
+from transactions.views import DepositView, TotalWithdraw,WithdrawView,GetTransactions,GetWallet,GetDepositStatus, GetWithdrawStatus, TotalDeposit, TotalWithdraw
 
 urlpatterns =[
     path("deposit", DepositView.as_view(), name="deposit"),
