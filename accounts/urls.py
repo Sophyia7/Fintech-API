@@ -1,5 +1,8 @@
+# Django imports
 from django.urls import path
-from .views import Register, Login, ResendActivationLink, ResetPassword, ActivateEmail, ConfirmPassword, Logout
+
+# App imports
+from accounts.views import Register, Login, ResendActivationLink, ResetPassword, ActivateEmail, ConfirmPassword, Logout
 
 urlpatterns = [
     path('register', Register.as_view(), name='register'),

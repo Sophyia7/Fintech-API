@@ -1,6 +1,10 @@
+# rest_framework imports 
 from rest_framework import serializers
-from .models import User
-from django.contrib.auth import authenticate
+
+# App imports
+from accounts.models import User
+
+
 
 class UserSerailizer(serializers.ModelSerializer):
     class Meta:

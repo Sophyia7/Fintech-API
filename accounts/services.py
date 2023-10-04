@@ -1,3 +1,4 @@
+# Apps import
 from transactions.models import Wallet
 
 def create_user_wallet(user):

@@ -1,19 +1,23 @@
-from bson import is_valid
-from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework.generics import GenericAPIView
-from .serializers import LogoutSeriliazer, ResetSerializer, UserSerailizer, LoginSerializer, ResetPasswordSeriliazer
-from rest_framework.decorators import api_view
-from .models import User
-from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.hashers import check_password
-from .services import create_user_wallet
-from.tokens import account_activation_token
+# Django imports
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_str, force_bytes
 from django.contrib.auth import logout
+from django.contrib.auth.hashers import check_password
+
+# App imports
+from accounts.services import create_user_wallet
+from accounts.tokens import account_activation_token
+from accounts.serializers import  ResetSerializer, UserSerailizer, LoginSerializer, ResetPasswordSeriliazer
+from accounts.models import User
+
+# rest_framework imports
+from rest_framework.response import Response
+from rest_framework.generics import GenericAPIView
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
 
 
 # Create your views here.

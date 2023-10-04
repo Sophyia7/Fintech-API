@@ -1,4 +1,7 @@
+# Django imports
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
+# Third party imports
 import six
 
 
