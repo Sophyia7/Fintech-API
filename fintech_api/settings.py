@@ -40,11 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
-    'accounts',
-    'transactions',
+
+    # Local apps
+    'accounts.apps.AccountsConfig',
+    'transactions.apps.TransactionsConfig',
+    'kyc.apps.KycConfig',
+
+    # Third party apps
     'rest_framework',
     'drf_yasg',
+    'corsheaders',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -140,6 +145,8 @@ REST_FRAMEWORK = {
     
 ]
 }
+
+LOGIN_REDIRECT_URL = '/docs'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
