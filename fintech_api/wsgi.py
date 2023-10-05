@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fintech_api.settings')
+settings_module = 'fintech_api.deployment' if HOSTNAME in os.environ else 'fintech_api.settings'
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings_module')
 
 application = get_wsgi_application()
