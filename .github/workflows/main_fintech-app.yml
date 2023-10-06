@@ -30,9 +30,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Delete Prev. collectstatic
-        run: python manage.py collectstatic --clear
-
       - name: Run collectstatic
         run: python manage.py collectstatic
         
