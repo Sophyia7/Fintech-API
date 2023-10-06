@@ -4,7 +4,7 @@ from .settings import BASE_DIR
 
 # Define URLs that can be allowed to access the backend
 ALLOWED_URLS = [os.environ['HOSTNAME']]
-CRSF_TRUSTED_ORIGINS = ['https://' + os.environ['HOSTNAME']]
+CRSF_TRUSTED_ORIGINS = ['https://'+os.environ['HOSTNAME']]
 DEBUG = True
 
 MIDDLEWARE = [
