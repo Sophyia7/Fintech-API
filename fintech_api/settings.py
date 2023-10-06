@@ -163,7 +163,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-CRSF_TRUSTED_ORIGINS = ["fintech-app.azurewebsites.net"]
+CRSF_TRUSTED_ORIGINS = ["https://fintech-app.azurewebsites.net"]
 CORS_ALLOW_ALL_ORIGINS = True
 # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
