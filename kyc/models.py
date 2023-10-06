@@ -11,9 +11,9 @@ KYC_CHOICES =(
 
 class KYC(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
-  kyc_type = models.CharField(max_length=20, choices=KYC_CHOICES)
+  kyc_type = models.CharField(max_length=50, choices=KYC_CHOICES)
   kyc_number = models.CharField(max_length=20)
-  kyc_image = models.ImageField(upload_to='/media/kyc_images/', blank=True)
+  kyc_image = models.ImageField(upload_to='media/', blank=True)
   kyc_status = models.BooleanField(default=False)
   kyc_date = models.DateField(auto_now_add=True)
 
