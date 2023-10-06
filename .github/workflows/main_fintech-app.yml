@@ -30,8 +30,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run collectstatic
+      - name: Delete Prev. collectstatic
         run: python manage.py collectstatic --clear
+
+      - name: Run collectstatic
         run: python manage.py collectstatic
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
